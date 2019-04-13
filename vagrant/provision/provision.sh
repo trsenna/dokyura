@@ -15,94 +15,21 @@ apt-get -y install \
 
 
 #====================================================
-#== MySQL
+#== Docker
 #====================================================
-echo "mysql-server mysql-server/root_password password root@secret" | debconf-set-selections
-echo "mysql-server mysql-server/root_password_again password root@secret" | debconf-set-selections
-apt-get -y install mysql-server
+curl -s "https://get.docker.com/" | bash
 
-
-
-
-
-#====================================================
-#== PostgreSQL
-#====================================================
-apt-get -y install \
-  postgresql \
-  postgresql-contrib
 
 
 
 
 
 #====================================================
-#== SQLite
+#== Docker Composer
 #====================================================
-apt-get -y install \
-  sqlite3 \
-  libsqlite3-dev
+curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
 
-
-
-
-
-#====================================================
-#== Node.js
-#====================================================
-if [ ! -f "/usr/bin/node" ]; then
-  curl -sL https://deb.nodesource.com/setup_8.x | bash -
-  apt-get install -y nodejs
-fi
-
-
-
-
-
-#====================================================
-#== Java SDK
-#====================================================
-apt-get -y install \
-  openjdk-8-jdk \
-  openjdk-8-source
-
-
-
-
-
-#====================================================
-#== SDKMAN & SDKs
-#====================================================
-if [ ! -d "/home/vagrant/.sdkman" ]; then
-  su - vagrant -c 'curl -s "https://get.sdkman.io" | bash'
-  su - vagrant -c 'source /home/vagrant/.sdkman/bin/sdkman-init.sh && yes | sdk install groovy'
-  su - vagrant -c 'source /home/vagrant/.sdkman/bin/sdkman-init.sh && yes | sdk install gradle'
-  su - vagrant -c 'source /home/vagrant/.sdkman/bin/sdkman-init.sh && yes | sdk install maven'
-fi
-
-
-
-
-
-#====================================================
-#== MailHog
-#====================================================
-if [ ! -f "/usr/local/bin/mailhog" ]; then
-  wget --quiet -O /usr/local/bin/mailhog https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64
-  chmod +x /usr/local/bin/mailhog
-fi
-
-
-
-
-
-#====================================================
-#== mhsendmail
-#====================================================
-if [ ! -f "/usr/local/bin/mhsendmail" ]; then
-  wget --quiet -O /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
-  chmod +x /usr/local/bin/mhsendmail
-fi
 
 
 

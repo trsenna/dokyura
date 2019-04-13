@@ -17,8 +17,10 @@ apt-get -y install \
 #====================================================
 #== Docker
 #====================================================
-curl -s "https://get.docker.com/" | bash
-
+if [ ! -f "/usr/bin/docker" ]; then
+  curl -s "https://get.docker.com/" | bash
+  usermod -aG docker vagrant
+fi
 
 
 
@@ -27,9 +29,11 @@ curl -s "https://get.docker.com/" | bash
 #====================================================
 #== Docker Composer
 #====================================================
-curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-
+if [ ! -f "/usr/local/bin/docker-compose" ]; then
+  wget https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64
+  mv docker-compose-Linux-x86_64 /usr/local/bin/docker-compose
+  chmod +x /usr/local/bin/docker-compose
+fi
 
 
 

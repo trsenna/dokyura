@@ -3,6 +3,9 @@
 #====================================================
 #== Common
 #====================================================
+export DEBIAN_FRONTEND=noninteractive
+export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
+
 apt-get -y update
 apt-get -y install \
   colordiff dos2unix gettext graphviz imagemagick \
@@ -17,8 +20,18 @@ apt-get -y install \
 #====================================================
 #== Docker
 #====================================================
+apt-get -y install \
+  apt-transport-https ca-certificates curl \
+  gnupg-agent software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -qq -
+echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" > /etc/apt/sources.list.d/docker.list
+
 if [ ! -f "/usr/bin/docker" ]; then
-  curl -s "https://get.docker.com/" | bash
+  apt-get -y update
+  apt-get -y install \
+    docker-ce docker-ce-cli containerd.io
+
   usermod -aG docker vagrant
 fi
 
